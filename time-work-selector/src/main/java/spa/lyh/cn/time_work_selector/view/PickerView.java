@@ -48,11 +48,13 @@ public class PickerView extends View {
     private float mMaxTextSize = 80;
     private float mMinTextSize = 40;
 
+    private float no = 7f;
+
     private float mMaxTextAlpha = 255;
     private float mMinTextAlpha = 120;
 
-    private int mColorText = 0x333333;
-    private int nColorText = 0x666666;
+    /*private int mColorText = 0x333333;
+    private int nColorText = 0x666666;*/
 
     private int mViewHeight;
     private int mViewWidth;
@@ -117,7 +119,7 @@ public class PickerView extends View {
     /**
      * 选择选中的item的index
      *
-     * @param selected
+     * @param selected 选中目标
      */
     public void setSelected(int selected) {
         mCurrentSelected = selected;
@@ -140,7 +142,7 @@ public class PickerView extends View {
     /**
      * 选择选中的内容
      *
-     * @param mSelectItem
+     * @param mSelectItem 设置选择的目标
      */
     public void setSelected(String mSelectItem) {
         for (int i = 0; i < mDataList.size(); i++)
@@ -174,10 +176,14 @@ public class PickerView extends View {
         mViewHeight = getMeasuredHeight();
         mViewWidth = getMeasuredWidth();
         // 按照View的高度计算字体大小
-        mMaxTextSize = mViewHeight / 7f;
+        mMaxTextSize = mViewHeight / no;
         mMinTextSize = mMaxTextSize / 2.2f;
         isInit = true;
         invalidate();
+    }
+
+    public void setTextSizeLevel(float no){
+        this.no = no;
     }
 
     private void init() {
@@ -192,7 +198,7 @@ public class PickerView extends View {
         nPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         nPaint.setStyle(Style.FILL);
         nPaint.setTextAlign(Align.CENTER);
-        nPaint.setColor(mColorText);
+        nPaint.setColor(getResources().getColor(R.color.selector_middle_black));
     }
 
     @Override
@@ -375,7 +381,7 @@ public class PickerView extends View {
      * 新增字段 控制内容是否首尾相连
      * by liuli
      *
-     * @param isLoop
+     * @param isLoop 是否循环
      */
     public void setIsLoop(boolean isLoop) {
         loop = isLoop;

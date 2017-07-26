@@ -7,7 +7,7 @@
     android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -15,10 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/tv_cancel"
@@ -35,10 +35,11 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:text="@string/select_time"
                 android:textColor="@color/selector_dark_black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
 
             <TextView
@@ -67,7 +68,7 @@
 
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:background="#ffffff"
@@ -89,7 +90,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/year"
-                    android:textColor="#333333"
+                    android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
                 <spa.lyh.cn.time_work_selector.view.PickerView
@@ -105,7 +106,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/month"
-                    android:textColor="#333333"
+                    android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
                 <spa.lyh.cn.time_work_selector.view.PickerView
@@ -120,7 +121,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/day"
-                    android:textColor="#333333"
+                    android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
 
@@ -137,7 +138,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/hour"
-                    android:textColor="#333333"
+                    android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
                 <spa.lyh.cn.time_work_selector.view.PickerView
@@ -153,7 +154,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/minute"
-                    android:textColor="#333333"
+                    android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
                 <spa.lyh.cn.time_work_selector.view.PickerView
                     android:id="@+id/work_pv"

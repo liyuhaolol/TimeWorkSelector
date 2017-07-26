@@ -642,6 +642,7 @@ public class TimeWorkSelector {
         switch (mode.value) {
             case 1:
                 RESULT_FORMAT_STR = FORMAT_STR_YMD;
+                setTextLevel(7f);
                 disScrollUnit(SCROLLTYPE.HOUR, SCROLLTYPE.MINUTE);
                 hour_pv.setVisibility(View.GONE);
                 minute_pv.setVisibility(View.GONE);
@@ -651,6 +652,7 @@ public class TimeWorkSelector {
                 break;
             case 2:
                 RESULT_FORMAT_STR = FORMAT_STR_YMDHM;
+                setTextLevel(7f);
                 disScrollUnit();
                 hour_pv.setVisibility(View.VISIBLE);
                 minute_pv.setVisibility(View.VISIBLE);
@@ -660,6 +662,8 @@ public class TimeWorkSelector {
                 break;
             case 3:
                 RESULT_FORMAT_STR = FORMAT_STR_YMD;
+                setTextLevel(7f);
+                work_pv.setTextSizeLevel(7f);
                 disScrollUnit(SCROLLTYPE.HOUR, SCROLLTYPE.MINUTE);
                 hour_pv.setVisibility(View.GONE);
                 minute_pv.setVisibility(View.GONE);
@@ -669,6 +673,7 @@ public class TimeWorkSelector {
                 break;
             case 4:
                 RESULT_FORMAT_STR = FORMAT_STR_YMDHM;
+                setTextLevel(10f);
                 disScrollUnit();
                 hour_pv.setVisibility(View.VISIBLE);
                 minute_pv.setVisibility(View.VISIBLE);
@@ -678,6 +683,15 @@ public class TimeWorkSelector {
                 break;
 
         }
+    }
+
+    public void setTextLevel(float no){
+        year_pv.setTextSizeLevel(no);
+        month_pv.setTextSizeLevel(no);
+        day_pv.setTextSizeLevel(no);
+        hour_pv.setTextSizeLevel(no);
+        minute_pv.setTextSizeLevel(no);
+        work_pv.setTextSizeLevel(no);
     }
 
     public void setIsLoop(boolean isLoop) {

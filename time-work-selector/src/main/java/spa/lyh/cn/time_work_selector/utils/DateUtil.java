@@ -12,7 +12,7 @@ public class DateUtil {
      *
      * @param strDate 日期字符串
      * @param pattern 日期格式
-     * @return
+     * @return 时间字符串
      */
 
     public static Date parse(String strDate, String pattern) {
@@ -34,7 +34,7 @@ public class DateUtil {
      *
      * @param date    日期
      * @param pattern 日期格式
-     * @return
+     * @return 返回时间字符串
      */
 
     public static String format(Date date, String pattern) {

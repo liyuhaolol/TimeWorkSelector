@@ -7,17 +7,17 @@
 
 - 在gradle中:
 ```
-    compile 'spa.lyh.cn:immersion-sdk:1.0.4'
+    compile 'spa.lyh.cn:time-work-selector:1.0.1'
 ```
 
 - 在maven中：
 ```
 
 <dependency>
-	<groupId>spa.lyh.cn</groupId>
-	<artifactId>immersion-sdk</artifactId>
-	<version>1.0.4</version>
-	<type>pom</type>
+  <groupId>spa.lyh.cn</groupId>
+  <artifactId>time-work-selector</artifactId>
+  <version>1.0.1</version>
+  <type>pom</type>
 </dependency>
 ```
 
