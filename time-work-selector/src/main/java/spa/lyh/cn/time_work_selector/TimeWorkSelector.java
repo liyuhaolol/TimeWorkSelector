@@ -88,7 +88,7 @@ public class TimeWorkSelector {
     private String workEnd_str;
     private Calendar startCalendar;
     private Calendar endCalendar;
-    private TextView tv_cancle;
+    private TextView tv_cancel;
     private TextView tv_select, tv_title;
     private TextView hour_text;
     private TextView minute_text;
@@ -96,9 +96,8 @@ public class TimeWorkSelector {
     private int ResId;
 
 
-    public TimeWorkSelector(Context context, ResultHandler resultHandler, String startDate, String endDate) {
+    public TimeWorkSelector(Context context, String startDate, String endDate) {
         this.context = context;
-        this.handler = resultHandler;
         startCalendar = Calendar.getInstance();
         endCalendar = Calendar.getInstance();
         startCalendar.setTime(DateUtil.parse(startDate, FORMAT_STR_YMDHM));
@@ -110,8 +109,8 @@ public class TimeWorkSelector {
         initView();
     }
 
-    public TimeWorkSelector(Context context, ResultHandler resultHandler, String startDate, String endDate, String workStartTime, String workEndTime) {
-        this(context, resultHandler, startDate, endDate);
+    public TimeWorkSelector(Context context, String startDate, String endDate, String workStartTime, String workEndTime) {
+        this(context, startDate, endDate);
         this.workStart_str = workStartTime;
         this.workEnd_str = workEndTime;
     }
@@ -134,6 +133,10 @@ public class TimeWorkSelector {
         initTimer();
         addListener();
         seletorDialog.show();
+    }
+
+    public void setResultHander(ResultHandler resultHandler){
+        this.handler = resultHandler;
     }
 
     private void initDialog() {
@@ -159,13 +162,13 @@ public class TimeWorkSelector {
         hour_pv = (PickerView) seletorDialog.findViewById(R.id.hour_pv);
         minute_pv = (PickerView) seletorDialog.findViewById(R.id.minute_pv);
         work_pv = (PickerView) seletorDialog.findViewById(R.id.work_pv);
-        tv_cancle = (TextView) seletorDialog.findViewById(R.id.tv_cancel);
+        tv_cancel = (TextView) seletorDialog.findViewById(R.id.tv_cancel);
         tv_select = (TextView) seletorDialog.findViewById(R.id.tv_select);
         tv_title = (TextView) seletorDialog.findViewById(R.id.tv_title);
         hour_text = (TextView) seletorDialog.findViewById(R.id.hour_text);
         minute_text = (TextView) seletorDialog.findViewById(R.id.minute_text);
 
-        tv_cancle.setOnClickListener(new View.OnClickListener() {
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 seletorDialog.dismiss();
@@ -180,7 +183,9 @@ public class TimeWorkSelector {
                 }else {
                     result = DateUtil.format(selectedCalender.getTime(), RESULT_FORMAT_STR);
                 }
-                handler.handle(result,ResId);
+                if (handler != null){
+                    handler.handle(result,ResId);
+                }
                 seletorDialog.dismiss();
             }
         });

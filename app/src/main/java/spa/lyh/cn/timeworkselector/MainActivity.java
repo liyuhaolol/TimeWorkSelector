@@ -26,13 +26,15 @@ public class MainActivity extends AppCompatActivity {
         calendar.setTime(new Date());
         calendar.add(Calendar.YEAR, +1);
         Date endDate = calendar.getTime();
-        timeworkSelector = new TimeWorkSelector(this, new TimeWorkSelector.ResultHandler() {
+        timeworkSelector = new TimeWorkSelector(this, format.format(startDate), format.format(endDate));
+        timeworkSelector.setIsLoop(true);
+
+        timeworkSelector.setResultHander(new TimeWorkSelector.ResultHandler() {
             @Override
             public void handle(String time, int ResId) {
                 Toast.makeText(getApplicationContext(), time+" ResId:"+ResId, Toast.LENGTH_LONG).show();
             }
-        }, format.format(startDate), format.format(endDate));
-        timeworkSelector.setIsLoop(true);
+        });
     }
 
     public void show(View v) {
