@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -33,7 +34,7 @@ public class TimeWorkSelector {
         HOUR(1),
         MINUTE(2);
 
-        private SCROLLTYPE(int value) {
+        SCROLLTYPE(int value) {
             this.value = value;
         }
 
@@ -95,6 +96,16 @@ public class TimeWorkSelector {
 
     private int ResId;
 
+    private String year_content;
+
+    private String month_content;
+
+    private String day_content;
+
+    private final String FORMAT_YEAR = "yyyy";
+    private final String FORMAT_MONTH = "MM";
+    private final String FORMAT_DAY= "dd";
+
 
     public TimeWorkSelector(Context context, String startDate, String endDate) {
         this.context = context;
@@ -103,8 +114,8 @@ public class TimeWorkSelector {
         startCalendar.setTime(DateUtil.parse(startDate, FORMAT_STR_YMDHM));
         endCalendar.setTime(DateUtil.parse(endDate, FORMAT_STR_YMDHM));
         work = new ArrayList<>();
-        work.add(context.getString(R.string.up_work));
-        work.add(context.getString(R.string.down_work));
+        work.add(context.getString(R.string.timeselector_up_work));
+        work.add(context.getString(R.string.timeselector_down_work));
         initDialog();
         initView();
     }
@@ -209,6 +220,10 @@ public class TimeWorkSelector {
         spanHour = (!spanDay) && (startHour != endHour);
         spanMin = (!spanHour) && (startMininute != endMininute);
         selectedCalender.setTime(startCalendar.getTime());
+        selectedCalender.add(Calendar.YEAR, +1);
+        year_content = DateUtil.format(selectedCalender.getTime(), FORMAT_YEAR);
+        month_content = DateUtil.format(selectedCalender.getTime(), FORMAT_MONTH);
+        day_content = DateUtil.format(selectedCalender.getTime(), FORMAT_DAY);
     }
 
     private void initTimer() {
@@ -324,7 +339,7 @@ public class TimeWorkSelector {
             }
         }
 
-        workTime = context.getString(R.string.up_work);
+        workTime = context.getString(R.string.timeselector_up_work);
 
         loadComponent();
 
@@ -458,9 +473,9 @@ public class TimeWorkSelector {
         day_pv.setData(day);
         hour_pv.setData(hour);
         minute_pv.setData(minute);
-        year_pv.setSelected(0);
-        month_pv.setSelected(0);
-        day_pv.setSelected(0);
+        year_pv.setSelected(year_content);
+        month_pv.setSelected(month_content);
+        day_pv.setSelected(day_content);
         hour_pv.setSelected(0);
         minute_pv.setSelected(0);
         ///
@@ -469,6 +484,7 @@ public class TimeWorkSelector {
         excuteScroll();
     }
 
+    //设置是否可以滑动
     private void excuteScroll() {
         year_pv.setCanScroll(year.size() > 1);
         month_pv.setCanScroll(month.size() > 1);

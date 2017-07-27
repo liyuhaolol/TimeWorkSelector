@@ -10,6 +10,7 @@ import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -145,11 +146,13 @@ public class PickerView extends View {
      * @param mSelectItem 设置选择的目标
      */
     public void setSelected(String mSelectItem) {
+        int selected = 0;
         for (int i = 0; i < mDataList.size(); i++)
             if (mDataList.get(i).equals(mSelectItem)) {
-                setSelected(i);
+                selected = i;
                 break;
             }
+        setSelected(selected);
     }
 
 
@@ -188,7 +191,7 @@ public class PickerView extends View {
 
     private void init() {
         timer = new Timer();
-        mDataList = new ArrayList<String>();
+        mDataList = new ArrayList<>();
         //第一个paint
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Style.FILL);

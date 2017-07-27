@@ -3,6 +3,6 @@
     <color name="selector_default_color">#3577C5</color>
     <color name="selector_middle_black">#646464</color>
     <color name="selector_dark_black">#323232</color>
-    <color name="divider_color">#E1E1E1</color>
+    <color name="selector_divider_color">#E1E1E1</color>
     <color name="white">#ffffff</color>
 </resources>

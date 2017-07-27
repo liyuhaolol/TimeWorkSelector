@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:padding="10dp"
-                android:text="@string/cancel"
+                android:text="@string/timeselector_cancel"
                 android:textColor="@color/selector_middle_black"
                 android:textSize="16sp" />
 
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_time"
+                android:text="@string/timeselector_select_time"
                 android:textColor="@color/selector_dark_black"
                 android:textSize="20sp"
                 android:layout_centerVertical="true"
@@ -49,7 +49,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:padding="10dp"
-                android:text="@string/confirm"
+                android:text="@string/timeselector_confirm"
                 android:textColor="@color/selector_middle_black"
                 android:textSize="16sp" />
 
@@ -60,7 +60,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/divider_color" />
+            android:background="@color/selector_divider_color" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/year"
+                    android:text="@string/timeselector_year"
                     android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
@@ -105,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/month"
+                    android:text="@string/timeselector_month"
                     android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
@@ -120,7 +120,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/day"
+                    android:text="@string/timeselector_day"
                     android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
@@ -137,7 +137,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/hour"
+                    android:text="@string/timeselector_hour"
                     android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
 
@@ -153,7 +153,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/minute"
+                    android:text="@string/timeselector_minute"
                     android:textColor="@color/selector_dark_black"
                     android:textSize="18sp" />
                 <spa.lyh.cn.time_work_selector.view.PickerView
