@@ -80,6 +80,7 @@ public class TimeWorkSelector {
 
     private ArrayList<String> year, month, day, hour, minute,work;
     private int startYear, startMonth, startDay, startHour, startMininute, endYear, endMonth, endDay, endHour, endMininute, minute_workStart, minute_workEnd, hour_workStart, hour_workEnd;
+    private int todayYear, todayMonth, todayDay,todayHour, todayMininute;
     private boolean spanYear, spanMon, spanDay, spanHour, spanMin;
     private Calendar selectedCalender = Calendar.getInstance();
     private String workTime;
@@ -102,13 +103,27 @@ public class TimeWorkSelector {
 
     private String day_content;
 
+    private String hour_content;
+
+    private String mininute_content;
+
     private final String FORMAT_YEAR = "yyyy";
     private final String FORMAT_MONTH = "MM";
     private final String FORMAT_DAY= "dd";
+    private final String FORMAT_HOUR= "HH";
+    private final String FORMAT_MIN= "mm";
+
+    //默认显示当日
+    public final static int SHOW_TODAY = 1000;
+    //默认显示开始日期
+    public final static int SHOW_START_DAY = 1001;
+
+    private int showStatus;
 
 
-    public TimeWorkSelector(Context context, String startDate, String endDate) {
+    public TimeWorkSelector(Context context, String startDate, String endDate,int showStatus) {
         this.context = context;
+        this.showStatus = showStatus;
         startCalendar = Calendar.getInstance();
         endCalendar = Calendar.getInstance();
         startCalendar.setTime(DateUtil.parse(startDate, FORMAT_STR_YMDHM));
@@ -120,8 +135,9 @@ public class TimeWorkSelector {
         initView();
     }
 
-    public TimeWorkSelector(Context context, String startDate, String endDate, String workStartTime, String workEndTime) {
-        this(context, startDate, endDate);
+    //可以设置朝九晚五
+    public TimeWorkSelector(Context context, String startDate, String endDate, String workStartTime, String workEndTime,int showStatus) {
+        this(context, startDate, endDate,showStatus);
         this.workStart_str = workStartTime;
         this.workEnd_str = workEndTime;
     }
@@ -141,7 +157,14 @@ public class TimeWorkSelector {
             return;
         }
         initParameter();
-        initTimer();
+        switch (showStatus){
+            case SHOW_TODAY:
+                initTodayTimer();
+                break;
+            case SHOW_START_DAY:
+                initStartTimer();
+                break;
+        }
         addListener();
         seletorDialog.show();
     }
@@ -221,12 +244,142 @@ public class TimeWorkSelector {
         spanMin = (!spanHour) && (startMininute != endMininute);
         selectedCalender.setTime(startCalendar.getTime());
         selectedCalender.add(Calendar.YEAR, +1);
+        //添加当天的内容
         year_content = DateUtil.format(selectedCalender.getTime(), FORMAT_YEAR);
         month_content = DateUtil.format(selectedCalender.getTime(), FORMAT_MONTH);
         day_content = DateUtil.format(selectedCalender.getTime(), FORMAT_DAY);
+        hour_content = DateUtil.format(selectedCalender.getTime(), FORMAT_HOUR);
+        mininute_content = DateUtil.format(selectedCalender.getTime(), FORMAT_MIN);
+        todayYear = startCalendar.get(Calendar.YEAR);
+        todayMonth = startCalendar.get(Calendar.MONTH) + 1;
+        todayDay = startCalendar.get(Calendar.DAY_OF_MONTH);
+        todayHour = selectedCalender.get(Calendar.HOUR_OF_DAY);
+        todayMininute = selectedCalender.get(Calendar.MINUTE);
+
     }
 
-    private void initTimer() {
+    private void initTodayTimer() {
+        initArrayList();
+
+        if (spanYear) {
+            for (int i = startYear; i <= endYear; i++) {
+                year.add(String.valueOf(i));
+            }
+            for (int i = 1; i <= MAXMONTH; i++) {
+                month.add(fomatTimeUnit(i));
+            }
+            for (int i = 1; i <= selectedCalender.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                day.add(fomatTimeUnit(i));
+            }
+            //时间问题
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(todayHour));
+            } else {
+                for (int i = 0; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+            }
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(todayMininute));
+            } else {
+                for (int i = 0; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            }
+
+        } else if (spanMon) {
+            year.add(String.valueOf(todayYear));
+            for (int i = 1; i <= endMonth; i++) {
+                month.add(fomatTimeUnit(i));
+            }
+            for (int i = 1; i <= startCalendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+                day.add(fomatTimeUnit(i));
+            }
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(todayHour));
+            } else {
+                for (int i = 0; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+            }
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(todayMininute));
+            } else {
+                for (int i = 0; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            }
+        } else if (spanDay) {
+            year.add(String.valueOf(todayYear));
+            month.add(fomatTimeUnit(todayMonth));
+            for (int i = 1; i <= endDay; i++) {
+                day.add(fomatTimeUnit(i));
+            }
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(todayHour));
+            } else {
+                for (int i = 0; i <= MAXHOUR; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+            }
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(todayMininute));
+            } else {
+                for (int i = 0; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            }
+
+        } else if (spanHour) {
+            year.add(String.valueOf(todayYear));
+            month.add(fomatTimeUnit(todayMonth));
+            day.add(fomatTimeUnit(todayDay));
+
+            if ((scrollUnits & SCROLLTYPE.HOUR.value) != SCROLLTYPE.HOUR.value) {
+                hour.add(fomatTimeUnit(todayHour));
+            } else {
+                for (int i = 0; i <= endHour; i++) {
+                    hour.add(fomatTimeUnit(i));
+                }
+
+            }
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(todayMininute));
+            } else {
+                for (int i = 0; i <= MAXMINUTE; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            }
+
+
+        } else if (spanMin) {
+            year.add(String.valueOf(todayYear));
+            month.add(fomatTimeUnit(todayMonth));
+            day.add(fomatTimeUnit(todayDay));
+            hour.add(fomatTimeUnit(todayHour));
+
+
+            if ((scrollUnits & SCROLLTYPE.MINUTE.value) != SCROLLTYPE.MINUTE.value) {
+                minute.add(fomatTimeUnit(todayMininute));
+            } else {
+                for (int i = 0; i <= endMininute; i++) {
+                    minute.add(fomatTimeUnit(i));
+                }
+            }
+        }
+
+        workTime = context.getString(R.string.timeselector_up_work);
+
+        loadComponent();
+
+    }
+
+
+    private void initStartTimer() {
         initArrayList();
 
         if (spanYear) {
@@ -473,11 +626,22 @@ public class TimeWorkSelector {
         day_pv.setData(day);
         hour_pv.setData(hour);
         minute_pv.setData(minute);
-        year_pv.setSelected(year_content);
-        month_pv.setSelected(month_content);
-        day_pv.setSelected(day_content);
-        hour_pv.setSelected(0);
-        minute_pv.setSelected(0);
+        switch (showStatus){
+            case SHOW_TODAY:
+                year_pv.setSelected(year_content);
+                month_pv.setSelected(month_content);
+                day_pv.setSelected(day_content);
+                hour_pv.setSelected(hour_content);
+                minute_pv.setSelected(mininute_content);
+                break;
+            case SHOW_START_DAY:
+                year_pv.setSelected(0);
+                month_pv.setSelected(0);
+                day_pv.setSelected(0);
+                hour_pv.setSelected(0);
+                minute_pv.setSelected(0);
+                break;
+        }
         ///
         work_pv.setData(work);
         work_pv.setSelected(0);
