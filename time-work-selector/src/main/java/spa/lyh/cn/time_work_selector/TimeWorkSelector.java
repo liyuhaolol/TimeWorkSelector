@@ -48,7 +48,7 @@ public class TimeWorkSelector {
         YMDW(3),
         YMDHMW(4);
 
-        private MODE(int value) {
+        MODE(int value) {
             this.value = value;
         }
 
