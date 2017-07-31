@@ -590,6 +590,19 @@ public class TimeWorkSelector {
         year_pv.setOnSelectListener(new PickerView.onSelectListener() {
             @Override
             public void onSelect(String text) {
+
+                int selectedMonth = selectedCalender.get(Calendar.MONTH) + 1;
+                int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+
+                if (selectedMonth == 2){
+                    if (selectedDay == 29){
+                        selectedDay = 28;
+                        selectedCalender.set(Calendar.DAY_OF_MONTH, selectedDay);
+                        selectedCalender.set(Calendar.MONTH, selectedMonth - 1);
+
+                    }
+                }
+
                 selectedCalender.set(Calendar.YEAR, Integer.parseInt(text));
                 monthChange();
 
@@ -599,7 +612,29 @@ public class TimeWorkSelector {
         month_pv.setOnSelectListener(new PickerView.onSelectListener() {
             @Override
             public void onSelect(String text) {
+                //取得当天
+                int selectedDay = selectedCalender.get(Calendar.DAY_OF_MONTH);
+                //设置当天为1号以防跨月
+                selectedCalender.set(Calendar.DAY_OF_MONTH, 1);
+                //设置为选择的月份
                 selectedCalender.set(Calendar.MONTH, Integer.parseInt(text) - 1);
+                //取到该月最大天数
+                int maxDay = selectedCalender.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+                switch (Integer.parseInt(text)){
+                    case 2:
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        if (maxDay < selectedDay){
+                            selectedDay = maxDay;
+                        }
+                        break;
+                }
+                //设置回当天
+                selectedCalender.set(Calendar.DAY_OF_MONTH, selectedDay);
+
                 dayChange();
 
 
