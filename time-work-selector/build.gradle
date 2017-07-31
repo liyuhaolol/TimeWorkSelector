@@ -33,7 +33,7 @@ def libName = 'TimeWorkSelector'
 
 group = "spa.lyh.cn"
 
-version = "1.0.5"
+version = "1.0.6"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs

@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calendar.setTime(new Date());
-        calendar.add(Calendar.YEAR, -1);
+        calendar.add(Calendar.YEAR, -5);
         Date startDate = calendar.getTime();
         calendar.setTime(new Date());
-        calendar.add(Calendar.YEAR, +1);
+        calendar.add(Calendar.YEAR, +5);
         Date endDate = calendar.getTime();
         timeworkSelector = new TimeWorkSelector(this,
                 format.format(startDate),
