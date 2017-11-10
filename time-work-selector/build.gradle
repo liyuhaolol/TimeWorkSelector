@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 22
-        versionCode 2
+        versionCode 3
         versionName version
     }
     buildTypes {
@@ -33,7 +33,7 @@ def libName = 'TimeWorkSelector'
 
 group = "spa.lyh.cn"
 
-version = "1.0.7"
+version = "1.0.8"
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs

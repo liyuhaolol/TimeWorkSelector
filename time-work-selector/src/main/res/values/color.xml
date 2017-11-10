@@ -5,4 +5,5 @@
     <color name="selector_dark_black">#323232</color>
     <color name="selector_divider_color">#E1E1E1</color>
     <color name="white">#ffffff</color>
+    <color name="maincolor">#E03C50</color>
 </resources>

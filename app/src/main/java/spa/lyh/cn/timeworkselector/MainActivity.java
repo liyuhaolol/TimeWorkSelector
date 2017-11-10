@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.YMD:
                 timeworkSelector.setMode(TimeWorkSelector.MODE.YMD);
-                timeworkSelector.show(R.id.YMD);
+                timeworkSelector.show(R.id.YMD,"2017-11-8");
                 break;
             case R.id.YMDHM:
                 timeworkSelector.setMode(TimeWorkSelector.MODE.YMDHM);

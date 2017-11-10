@@ -10,7 +10,6 @@ import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import spa.lyh.cn.time_work_selector.GlobelData;
 import spa.lyh.cn.time_work_selector.R;
 
 
@@ -196,7 +196,12 @@ public class PickerView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Style.FILL);
         mPaint.setTextAlign(Align.CENTER);
-        mPaint.setColor(getResources().getColor(R.color.selector_default_color));
+        if (GlobelData.myColor != 0){
+            mPaint.setColor(GlobelData.myColor);
+        }else {
+            mPaint.setColor(getResources().getColor(R.color.selector_default_color));
+        }
+
         //第二个paint
         nPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         nPaint.setStyle(Style.FILL);

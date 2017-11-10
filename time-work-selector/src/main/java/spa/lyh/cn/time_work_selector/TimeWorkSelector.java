@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -123,7 +124,7 @@ public class TimeWorkSelector {
     private int showStatus;
 
 
-    public TimeWorkSelector(Context context, String startDate, String endDate,int showStatus) {
+    public TimeWorkSelector(Context context, String startDate, String endDate, int showStatus) {
         this.todayCalendar = Calendar.getInstance();
         this.context = context;
         this.showStatus = showStatus;
@@ -147,13 +148,51 @@ public class TimeWorkSelector {
         this.workEnd_str = workEndTime;
     }
 
-    public void show() {
-        show(0);
+    public TimeWorkSelector(Context context, String startDate, String endDate,int color,int showStatus) {
+        GlobelData.myColor = color;
+        this.todayCalendar = Calendar.getInstance();
+        this.context = context;
+        this.showStatus = showStatus;
+        this.minute_workStart = -1;
+        this.minute_workEnd = 60;
+        startCalendar = Calendar.getInstance();
+        endCalendar = Calendar.getInstance();
+        startCalendar.setTime(DateUtil.parse(startDate, FORMAT_STR_YMDHM));
+        endCalendar.setTime(DateUtil.parse(endDate, FORMAT_STR_YMDHM));
+        work = new ArrayList<>();
+        work.add(context.getString(R.string.timeselector_up_work));
+        work.add(context.getString(R.string.timeselector_down_work));
+        initDialog();
+        initView();
+    }
+    public void show(String time) {
+        show(0,time);
     }
 
     public void show(int ResId) {
+        show(ResId,"");
+    }
+
+    public void show() {
+        show(0,"");
+    }
+
+    public void show(int ResId,String time) {
         this.ResId = ResId;
-        todayCalendar.setTime(new Date());
+        if(TextUtil.isEmpty(time)){
+            todayCalendar.setTime(new Date());
+        }else {
+            try {
+                SimpleDateFormat sdf=new SimpleDateFormat(FORMAT_STR_YMD);
+                Date date = sdf.parse(time);
+                todayCalendar.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                todayCalendar.setTime(new Date());
+            }
+
+        }
+
         if (startCalendar.getTime().getTime() >= endCalendar.getTime().getTime()) {
             Toast.makeText(context, "start>end", Toast.LENGTH_LONG).show();
             return;
