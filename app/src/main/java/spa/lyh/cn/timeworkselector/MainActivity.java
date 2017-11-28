@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), time+" ResId:"+ResId, Toast.LENGTH_LONG).show();
             }
         });
+        timeworkSelector.setCancelHander(new TimeWorkSelector.ResultHandler() {
+            @Override
+            public void handle(String time, int ResId) {
+
+            }
+        });
     }
 
     public void show(View v) {

@@ -61,7 +61,8 @@ public class TimeWorkSelector {
 
 
     private int scrollUnits = SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
-    private ResultHandler handler;
+    private ResultHandler resultHandler;
+    private ResultHandler cacelHandler;
     private Context context;
     private final String FORMAT_STR_YMDHM = "yyyy-MM-dd HH:mm";
     private final String FORMAT_STR_YMD = "yyyy-MM-dd";
@@ -221,8 +222,12 @@ public class TimeWorkSelector {
         seletorDialog.show();
     }
 
-    public void setResultHander(ResultHandler resultHandler){
-        this.handler = resultHandler;
+    public void setResultHander(ResultHandler handler){
+        this.resultHandler = handler;
+    }
+
+    public void setCancelHander(ResultHandler handler){
+        this.cacelHandler = handler;
     }
 
     private void initDialog() {
@@ -257,6 +262,9 @@ public class TimeWorkSelector {
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (cacelHandler != null){
+                    cacelHandler.handle("",ResId);
+                }
                 seletorDialog.dismiss();
             }
         });
@@ -269,8 +277,8 @@ public class TimeWorkSelector {
                 }else {
                     result = DateUtil.format(selectedCalender.getTime(), RESULT_FORMAT_STR);
                 }
-                if (handler != null){
-                    handler.handle(result,ResId);
+                if (resultHandler != null){
+                    resultHandler.handle(result,ResId);
                 }
                 seletorDialog.dismiss();
             }
