@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "spa.lyh.cn.timeworkselector"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -24,4 +24,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(':time-work-selector')
     //compile 'spa.lyh.cn:time-work-selector:1.0.9'
+    implementation 'spa.lyh.cn:lib_utils:1.1.2'
 }

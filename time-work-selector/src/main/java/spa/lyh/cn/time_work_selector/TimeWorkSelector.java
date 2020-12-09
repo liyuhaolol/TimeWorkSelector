@@ -2,12 +2,22 @@ package spa.lyh.cn.time_work_selector;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import spa.lyh.cn.time_work_selector.listener.OnNavHeightListener;
 import spa.lyh.cn.time_work_selector.utils.DateUtil;
 import spa.lyh.cn.time_work_selector.utils.ScreenUtil;
 import spa.lyh.cn.time_work_selector.utils.TextUtil;
@@ -63,7 +74,7 @@ public class TimeWorkSelector {
     private int scrollUnits = SCROLLTYPE.HOUR.value + SCROLLTYPE.MINUTE.value;
     private ResultHandler resultHandler;
     private ResultHandler cacelHandler;
-    private Context context;
+    private Activity context;
     private final String FORMAT_STR_YMDHM = "yyyy-MM-dd HH:mm";
     private final String FORMAT_STR_YMD = "yyyy-MM-dd";
     private String RESULT_FORMAT_STR;
@@ -124,8 +135,12 @@ public class TimeWorkSelector {
 
     private int showStatus;
 
+    private ViewGroup contentView;
 
-    public TimeWorkSelector(Context context, String startDate, String endDate, int showStatus) {
+    private View nav_bar;
+
+
+    public TimeWorkSelector(Activity context, String startDate, String endDate, int showStatus) {
         this.todayCalendar = Calendar.getInstance();
         this.context = context;
         this.showStatus = showStatus;
@@ -143,13 +158,13 @@ public class TimeWorkSelector {
     }
 
     //可以设置朝九晚五
-    public TimeWorkSelector(Context context, String startDate, String endDate, String workStartTime, String workEndTime,int showStatus) {
+    public TimeWorkSelector(Activity context, String startDate, String endDate, String workStartTime, String workEndTime,int showStatus) {
         this(context, startDate, endDate,showStatus);
         this.workStart_str = workStartTime;
         this.workEnd_str = workEndTime;
     }
 
-    public TimeWorkSelector(Context context, String startDate, String endDate,int color,int showStatus) {
+    public TimeWorkSelector(Activity context, String startDate, String endDate,int color,int showStatus) {
         GlobelData.myColor = color;
         this.todayCalendar = Calendar.getInstance();
         this.context = context;
@@ -230,19 +245,127 @@ public class TimeWorkSelector {
         this.cacelHandler = handler;
     }
 
+
     private void initDialog() {
         if (seletorDialog == null) {
             seletorDialog = new Dialog(context, R.style.time_dialog);
             seletorDialog.setCancelable(true);
             seletorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            seletorDialog.setContentView(R.layout.dialog_selector);
+            contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.dialog_selector, null);
+            seletorDialog.setContentView(contentView);
+            nav_bar = contentView .findViewById(R.id.nav_bar);
+            autoFitNavBar(nav_bar);
             Window window = seletorDialog.getWindow();
-            window.setGravity(Gravity.BOTTOM);
-            window.setWindowAnimations(R.style.dialogWindowAnim);
-            WindowManager.LayoutParams lp = window.getAttributes();
-            int width = ScreenUtil.getInstance(context).getScreenWidth();
-            lp.width = width;
-            window.setAttributes(lp);
+            if (window != null){
+                //getWindow().setWindowAnimations(R.style.dialogWindowAnim);
+                //设置布局顶部显示
+                window.setGravity(Gravity.TOP);
+                //设置背景透明后设置该属性，可去除dialog边框
+                window.setBackgroundDrawable(new ColorDrawable());
+                //设置横向铺满全屏
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(Color.TRANSPARENT);
+                }
+                setSystemUiVisibility(window.getDecorView(),
+                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
+                        true);
+                //兼容刘海屏
+                WindowManager.LayoutParams lp = window.getAttributes();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                    lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                }
+                window.setAttributes(lp);
+            }
+            FrameLayout.LayoutParams llParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            llParams.gravity = Gravity.BOTTOM;
+            contentView.setLayoutParams(llParams);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                setSystemUiVisibility(contentView, View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR,true);
+            }else {
+                nav_bar.setBackgroundColor(Color.BLACK);
+                nav_bar.setAlpha(0.4f);
+            }
+
+        }
+    }
+
+    /**
+     * 设置显示的样式
+     * @param decorView
+     * @param visibility
+     * @param isAddVisibility 是否添加这个属性，true添加，false移除
+     */
+    private void setSystemUiVisibility(View decorView,int visibility,boolean isAddVisibility){
+        int oldVis = decorView.getSystemUiVisibility();
+        int newVis = oldVis;
+        if (isAddVisibility){
+            newVis |= visibility;
+        }else {
+            newVis &= ~visibility;
+        }
+        if (newVis != oldVis) {
+            decorView.setSystemUiVisibility(newVis);
+        }
+    }
+
+    private void autoFitNavBar(final View view){
+        getNavigationBarHeight(context, new OnNavHeightListener() {
+            @Override
+            public void getHeight(int height) {
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                layoutParams.height = height;
+                view.setLayoutParams(layoutParams);
+            }
+        });
+    }
+
+    private void getNavigationBarHeight(final Activity activity, final OnNavHeightListener listener) {
+        Resources resources = activity.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height","dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        boolean canDo = true;
+        Point size = new Point();
+        Point realSize = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(size);
+        activity.getWindowManager().getDefaultDisplay().getRealSize(realSize);
+        if (realSize.equals(size)) {
+            //两个尺寸相等，说明没有导航栏
+            height = 0;
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                //Android8.0以上才存在所谓全面屏手势
+                WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
+                if (insets == null){
+                    canDo = false;
+                    activity.getWindow().getDecorView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                        @Override
+                        public void onViewAttachedToWindow(View v) {
+                            if (activity.getWindow().getDecorView().getRootWindowInsets() != null){
+                                if (listener != null){
+                                    listener.getHeight(activity.getWindow().getDecorView().getRootWindowInsets().getStableInsetBottom());
+                                }
+                            }
+                            activity.getWindow().getDecorView().removeOnAttachStateChangeListener(this);
+                        }
+
+                        @Override
+                        public void onViewDetachedFromWindow(View v) {
+
+                        }
+                    });
+                }else {
+                    if (insets.getStableInsetBottom() == 0){
+                        //导航栏没有高度
+                        height = 0;
+                    }
+                }
+            }
+        }
+        if (canDo && listener != null){
+            listener.getHeight(height);
         }
     }
 
