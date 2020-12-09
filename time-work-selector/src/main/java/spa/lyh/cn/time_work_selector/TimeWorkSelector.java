@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -139,6 +141,8 @@ public class TimeWorkSelector {
 
     private View nav_bar;
 
+    private View alpha;
+
 
     public TimeWorkSelector(Activity context, String startDate, String endDate, int showStatus) {
         this.todayCalendar = Calendar.getInstance();
@@ -250,10 +254,20 @@ public class TimeWorkSelector {
         if (seletorDialog == null) {
             seletorDialog = new Dialog(context, R.style.time_dialog);
             seletorDialog.setCancelable(true);
+            seletorDialog.setCanceledOnTouchOutside(true);
             seletorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.dialog_selector, null);
             seletorDialog.setContentView(contentView);
             nav_bar = contentView .findViewById(R.id.nav_bar);
+            alpha = contentView .findViewById(R.id.alpha);
+            alpha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (seletorDialog.isShowing()){
+                        seletorDialog.dismiss();
+                    }
+                }
+            });
             autoFitNavBar(nav_bar);
             Window window = seletorDialog.getWindow();
             if (window != null){
@@ -279,9 +293,6 @@ public class TimeWorkSelector {
                 }
                 window.setAttributes(lp);
             }
-            FrameLayout.LayoutParams llParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            llParams.gravity = Gravity.BOTTOM;
-            contentView.setLayoutParams(llParams);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 setSystemUiVisibility(contentView, View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR,true);
             }else {
