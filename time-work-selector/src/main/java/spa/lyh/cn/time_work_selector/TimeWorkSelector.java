@@ -77,8 +77,8 @@ public class TimeWorkSelector {
     private ResultHandler resultHandler;
     private ResultHandler cacelHandler;
     private Activity context;
-    private final String FORMAT_STR_YMDHM = "yyyy-MM-dd HH:mm";
-    private final String FORMAT_STR_YMD = "yyyy-MM-dd";
+    public static final String FORMAT_STR_YMDHM = "yyyy-MM-dd HH:mm";
+    public static final String FORMAT_STR_YMD = "yyyy-MM-dd";
     private String RESULT_FORMAT_STR;
     private Dialog seletorDialog;
     private PickerView year_pv;
@@ -185,32 +185,43 @@ public class TimeWorkSelector {
         initDialog();
         initView();
     }
-    public void show(String time) {
-        show(0,time);
+    public void show(String time,String type) {
+        show(0,time,type);
     }
 
     public void show(int ResId) {
-        show(ResId,"");
+        show(ResId,"","");
     }
 
     public void show() {
-        show(0,"");
+        show(0,"","");
     }
 
-    public void show(int ResId,String time) {
+    public void show(int ResId,String time,String type) {
         this.ResId = ResId;
+        String mWork = context.getString(R.string.timeselector_up_work);
         if(TextUtil.isEmpty(time)){
             todayCalendar.setTime(new Date());
         }else {
-            try {
-                SimpleDateFormat sdf=new SimpleDateFormat(FORMAT_STR_YMD);
-                Date date = sdf.parse(time);
-                todayCalendar.setTime(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                todayCalendar.setTime(new Date());
+            String[] mString = time.split(" ");
+            String mTime = mString[0];
+            if(mString.length == 2){
+                //有班次
+                mWork = mString[1];;
             }
+            if (TextUtil.isEmpty(type)){
+                todayCalendar.setTime(new Date());
+            }else {
+                try {
 
+                    SimpleDateFormat sdf=new SimpleDateFormat(type);
+                    Date date = sdf.parse(mTime);
+                    todayCalendar.setTime(date);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    todayCalendar.setTime(new Date());
+                }
+            }
         }
 
         if (startCalendar.getTime().getTime() >= endCalendar.getTime().getTime()) {
@@ -224,17 +235,18 @@ public class TimeWorkSelector {
         switch (showStatus){
             case SHOW_TODAY:
                 //当天时间不在设置的时间段里时,设置为初始时间
-                if (todayCalendar.getTime().getTime() >= endCalendar.getTime().getTime() || todayCalendar.getTime().getTime() <= startCalendar.getTime().getTime()){
+                if (todayCalendar.getTime().getTime() >= endCalendar.getTime().getTime()
+                        || todayCalendar.getTime().getTime() <= startCalendar.getTime().getTime()){
                     initStartParameter();
-                    initStartTimer();
+                    initStartTimer(mWork);
                 }else {
                     initTodayParameter();
-                    initTodayTimer();
+                    initTodayTimer(mWork);
                 }
                 break;
             case SHOW_START_DAY:
                 initStartParameter();
-                initStartTimer();
+                initStartTimer(mWork);
                 break;
         }
         addListener();
@@ -271,7 +283,7 @@ public class TimeWorkSelector {
             autoFitNavBar(nav_bar);
             Window window = seletorDialog.getWindow();
             if (window != null){
-                //getWindow().setWindowAnimations(R.style.dialogWindowAnim);
+                window.setWindowAnimations(R.style.dialogWindowAnim);
                 //设置布局顶部显示
                 window.setGravity(Gravity.TOP);
                 //设置背景透明后设置该属性，可去除dialog边框
@@ -474,7 +486,7 @@ public class TimeWorkSelector {
         selectedCalender.setTime(startCalendar.getTime());
     }
 
-    private void initTodayTimer() {
+    private void initTodayTimer(String work) {
         initArrayList();
 
         if (spanYear) {
@@ -587,15 +599,20 @@ public class TimeWorkSelector {
                 }
             }
         }
+        workTime = work;
+        int selectWork;
+        if (work.equals(context.getString(R.string.timeselector_up_work))){
+            selectWork = 0;
+        }else {
+            selectWork = 1;
+        }
 
-        workTime = context.getString(R.string.timeselector_up_work);
-
-        loadTodayComponent();
+        loadTodayComponent(selectWork);
 
     }
 
 
-    private void initStartTimer() {
+    private void initStartTimer(String work) {
         initArrayList();
 
         if (spanYear) {
@@ -708,9 +725,15 @@ public class TimeWorkSelector {
             }
         }
 
-        workTime = context.getString(R.string.timeselector_up_work);
+        workTime = work;
+        int selectWork;
+        if (work.equals(context.getString(R.string.timeselector_up_work))){
+            selectWork = 0;
+        }else {
+            selectWork = 1;
+        }
 
-        loadStartComponent();
+        loadStartComponent(selectWork);
 
     }
 
@@ -740,7 +763,7 @@ public class TimeWorkSelector {
                 MAXHOUR = endCalendar.get(Calendar.HOUR_OF_DAY);
             }else {
                 Toast.makeText(context, "Wrong parames!", Toast.LENGTH_LONG).show();
-                return false;
+                res = false;
             }
 
         }
@@ -856,7 +879,7 @@ public class TimeWorkSelector {
     }
 
 
-    private void loadTodayComponent() {
+    private void loadTodayComponent(int selectWork) {
         year_pv.setData(year);
         month_pv.setData(month);
         day_pv.setData(day);
@@ -869,11 +892,11 @@ public class TimeWorkSelector {
         minute_pv.setSelected(mininute_content);
         ///
         work_pv.setData(work);
-        work_pv.setSelected(0);
+        work_pv.setSelected(selectWork);
         excuteScroll();
     }
 
-    private void loadStartComponent() {
+    private void loadStartComponent(int selectWork) {
         year_pv.setData(year);
         month_pv.setData(month);
         day_pv.setData(day);
@@ -886,7 +909,7 @@ public class TimeWorkSelector {
         minute_pv.setSelected(0);
         ///
         work_pv.setData(work);
-        work_pv.setSelected(0);
+        work_pv.setSelected(selectWork);
         excuteScroll();
     }
 
