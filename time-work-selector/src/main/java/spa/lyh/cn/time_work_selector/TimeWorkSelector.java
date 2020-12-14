@@ -31,8 +31,10 @@ import java.util.Date;
 
 import spa.lyh.cn.time_work_selector.listener.OnNavHeightListener;
 import spa.lyh.cn.time_work_selector.utils.DateUtil;
+import spa.lyh.cn.time_work_selector.utils.NavBarFontColorControler;
 import spa.lyh.cn.time_work_selector.utils.ScreenUtil;
 import spa.lyh.cn.time_work_selector.utils.TextUtil;
+import spa.lyh.cn.time_work_selector.utils.TranslucentUtils;
 import spa.lyh.cn.time_work_selector.view.PickerView;
 
 /**
@@ -290,47 +292,24 @@ public class TimeWorkSelector {
                 window.setBackgroundDrawable(new ColorDrawable());
                 //设置横向铺满全屏
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                /*window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                     window.setStatusBarColor(Color.TRANSPARENT);
                 }
                 setSystemUiVisibility(window.getDecorView(),
                         View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN,
-                        true);
+                        true);*/
+                TranslucentUtils.setTranslucentBoth(window);
                 //兼容刘海屏
                 WindowManager.LayoutParams lp = window.getAttributes();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
                     lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
                 }
                 window.setAttributes(lp);
+                //Android8.0以上把导航栏变黑
+                NavBarFontColorControler.setNavBarMode(window,true);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                setSystemUiVisibility(contentView, View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR,true);
-            }else {
-                nav_bar.setBackgroundColor(Color.BLACK);
-                nav_bar.setAlpha(0.4f);
-            }
-
-        }
-    }
-
-    /**
-     * 设置显示的样式
-     * @param decorView
-     * @param visibility
-     * @param isAddVisibility 是否添加这个属性，true添加，false移除
-     */
-    private void setSystemUiVisibility(View decorView,int visibility,boolean isAddVisibility){
-        int oldVis = decorView.getSystemUiVisibility();
-        int newVis = oldVis;
-        if (isAddVisibility){
-            newVis |= visibility;
-        }else {
-            newVis &= ~visibility;
-        }
-        if (newVis != oldVis) {
-            decorView.setSystemUiVisibility(newVis);
         }
     }
 
