@@ -24,5 +24,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(':time-work-selector')
     //compile 'spa.lyh.cn:time-work-selector:1.0.9'
-    implementation 'spa.lyh.cn:lib_utils:1.1.2'
+    //implementation 'spa.lyh.cn:lib_utils:1.1.2'
 }

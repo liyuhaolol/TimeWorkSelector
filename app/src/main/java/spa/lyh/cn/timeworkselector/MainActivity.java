@@ -4,15 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import spa.lyh.cn.lib_utils.translucent.TranslucentUtils;
-import spa.lyh.cn.lib_utils.translucent.navbar.NavBarFontColorControler;
 import spa.lyh.cn.time_work_selector.TimeWorkSelector;
 
 public class MainActivity extends AppCompatActivity {
