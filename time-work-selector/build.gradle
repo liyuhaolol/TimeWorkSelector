@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 30
+    namespace 'spa.lyh.cn.time_work_selector'
+    compileSdkVersion 35
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion 35
         versionCode 10
         versionName "1.1.4"
     }
@@ -15,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 
