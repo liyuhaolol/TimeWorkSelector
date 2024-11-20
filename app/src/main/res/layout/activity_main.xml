@@ -1,67 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<spa.lyh.cn.lib_utils.view.layout.FitLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+    android:background="@color/colorPrimary"
+    app:llFitTop="true">
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/YMD"
-                android:padding="15dp"
-                android:onClick="show"
-                android:gravity="center"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:background="@color/white">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:text="年月日"
-                android:textColor="@color/colorPrimary"
-                android:textSize="21sp" />
-            <TextView
-                android:id="@+id/YMDHM"
-                android:padding="15dp"
-                android:onClick="show"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:text="年月日时分"
-                android:textColor="@color/colorPrimary"
-                android:textSize="21sp" />
-            <TextView
-                android:id="@+id/YMDW"
-                android:padding="15dp"
-                android:onClick="show"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:text="年月日班次"
-                android:textColor="@color/colorPrimary"
-                android:textSize="21sp" />
-            <TextView
-                android:id="@+id/YMDHMW"
-                android:padding="15dp"
-                android:onClick="show"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp"
-                android:text="年月日时分班次"
-                android:textColor="@color/colorPrimary"
-                android:textSize="21sp" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/YMD"
+                    android:padding="15dp"
+                    android:onClick="show"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:text="年月日"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="21sp" />
+                <TextView
+                    android:id="@+id/YMDHM"
+                    android:padding="15dp"
+                    android:onClick="show"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:text="年月日时分"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="21sp" />
+                <TextView
+                    android:id="@+id/YMDW"
+                    android:padding="15dp"
+                    android:onClick="show"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:text="年月日班次"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="21sp" />
+                <TextView
+                    android:id="@+id/YMDHMW"
+                    android:padding="15dp"
+                    android:onClick="show"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:text="年月日时分班次"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="21sp" />
+            </LinearLayout>
+        </ScrollView>
+</spa.lyh.cn.lib_utils.view.layout.FitLinearLayout>

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import spa.lyh.cn.lib_utils.translucent.TranslucentUtils;
 import spa.lyh.cn.time_work_selector.TimeWorkSelector;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*TranslucentUtils.setTranslucentBoth(this);
-        NavBarFontColorControler.setNavBarMode(this,true);*/
+        TranslucentUtils.setTranslucentBoth(getWindow());
+        //NavBarFontColorControler.setNavBarMode(this,true);*/
     }
 
     public void show(View v) {
