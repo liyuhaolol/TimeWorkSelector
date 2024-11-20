@@ -24,4 +24,5 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'io.github.liyuhaolol:CommonUtils:1.5.7'
 }

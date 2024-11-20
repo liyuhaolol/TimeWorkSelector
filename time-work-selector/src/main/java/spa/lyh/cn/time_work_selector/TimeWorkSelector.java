@@ -20,6 +20,7 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +30,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import spa.lyh.cn.lib_utils.translucent.TranslucentUtils;
+import spa.lyh.cn.lib_utils.translucent.navbar.NavBarFontColorControler;
 import spa.lyh.cn.time_work_selector.listener.OnNavHeightListener;
 import spa.lyh.cn.time_work_selector.utils.DateUtil;
-import spa.lyh.cn.time_work_selector.utils.NavBarFontColorControler;
 import spa.lyh.cn.time_work_selector.utils.ScreenUtil;
 import spa.lyh.cn.time_work_selector.utils.TextUtil;
-import spa.lyh.cn.time_work_selector.utils.TranslucentUtils;
 import spa.lyh.cn.time_work_selector.view.PickerView;
 
 /**
@@ -141,9 +142,7 @@ public class TimeWorkSelector {
 
     private ViewGroup contentView;
 
-    private View nav_bar;
-
-    private View alpha;
+    private RelativeLayout background;
 
 
     public TimeWorkSelector(Activity context, String startDate, String endDate, int showStatus) {
@@ -272,9 +271,8 @@ public class TimeWorkSelector {
             seletorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             contentView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.dialog_selector, null);
             seletorDialog.setContentView(contentView);
-            nav_bar = contentView .findViewById(R.id.nav_bar);
-            alpha = contentView .findViewById(R.id.alpha);
-            alpha.setOnClickListener(new View.OnClickListener() {
+            background = contentView .findViewById(R.id.background);
+            background.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (seletorDialog.isShowing()){
@@ -282,7 +280,6 @@ public class TimeWorkSelector {
                     }
                 }
             });
-            autoFitNavBar(nav_bar);
             Window window = seletorDialog.getWindow();
             if (window != null){
                 window.setWindowAnimations(R.style.dialogWindowAnim);
@@ -307,67 +304,7 @@ public class TimeWorkSelector {
                     lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
                 }
                 window.setAttributes(lp);
-                //Android8.0以上把导航栏变黑
-                NavBarFontColorControler.setNavBarMode(window,true);
             }
-        }
-    }
-
-    private void autoFitNavBar(final View view){
-        getNavigationBarHeight(context, new OnNavHeightListener() {
-            @Override
-            public void getHeight(int height) {
-                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-                layoutParams.height = height;
-                view.setLayoutParams(layoutParams);
-            }
-        });
-    }
-
-    private void getNavigationBarHeight(final Activity activity, final OnNavHeightListener listener) {
-        Resources resources = activity.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height","dimen", "android");
-        int height = resources.getDimensionPixelSize(resourceId);
-        boolean canDo = true;
-        Point size = new Point();
-        Point realSize = new Point();
-        activity.getWindowManager().getDefaultDisplay().getSize(size);
-        activity.getWindowManager().getDefaultDisplay().getRealSize(realSize);
-        if (realSize.equals(size)) {
-            //两个尺寸相等，说明没有导航栏
-            height = 0;
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                //Android8.0以上才存在所谓全面屏手势
-                WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
-                if (insets == null){
-                    canDo = false;
-                    activity.getWindow().getDecorView().addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                        @Override
-                        public void onViewAttachedToWindow(View v) {
-                            if (activity.getWindow().getDecorView().getRootWindowInsets() != null){
-                                if (listener != null){
-                                    listener.getHeight(activity.getWindow().getDecorView().getRootWindowInsets().getStableInsetBottom());
-                                }
-                            }
-                            activity.getWindow().getDecorView().removeOnAttachStateChangeListener(this);
-                        }
-
-                        @Override
-                        public void onViewDetachedFromWindow(View v) {
-
-                        }
-                    });
-                }else {
-                    if (insets.getStableInsetBottom() == 0){
-                        //导航栏没有高度
-                        height = 0;
-                    }
-                }
-            }
-        }
-        if (canDo && listener != null){
-            listener.getHeight(height);
         }
     }
 

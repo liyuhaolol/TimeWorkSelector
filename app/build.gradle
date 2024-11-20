@@ -24,8 +24,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.21"))
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation project(':time-work-selector')
     //compile 'spa.lyh.cn:time-work-selector:1.0.9'
     //implementation 'spa.lyh.cn:lib_utils:1.1.2'
