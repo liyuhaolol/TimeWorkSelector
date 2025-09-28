@@ -5,12 +5,12 @@ import net.thebugmc.gradle.sonatypepublisher.PublishingType.AUTOMATIC
 
 plugins {
     id("com.android.library")
-    id("net.thebugmc.gradle.sonatype-central-portal-publisher") version "1.2.3"
+    id("net.thebugmc.gradle.sonatype-central-portal-publisher") version "1.2.4"
 }
 
 android {
     namespace = "spa.lyh.cn.time_work_selector"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 21
@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    implementation("io.github.liyuhaolol:CommonUtils:1.5.7")
+    implementation("io.github.liyuhaolol:CommonUtils:1.6.1")
 }
 
 var signingKeyId = ""//签名的密钥后8位
@@ -63,7 +63,7 @@ centralPortal {
     password = ossrhPassword
     name = "TimeWorkSelector"
     group = "io.github.liyuhaolol"
-    version = "1.1.5"
+    version = "1.1.6"
     pom {
         //packaging = "aar"
         name = "TimeWorkSelector"

@@ -7,7 +7,7 @@
 
 - 在gradle中:
 ```
-    compile 'spa.lyh.cn:time-work-selector:1.1.5'
+    compile 'spa.lyh.cn:time-work-selector:1.1.6'
 ```
 
 - 在maven中：
@@ -16,7 +16,7 @@
 <dependency>
   <groupId>spa.lyh.cn</groupId>
   <artifactId>time-work-selector</artifactId>
-  <version>1.1.5</version>
+  <version>1.1.6</version>
   <type>pom</type>
 </dependency>
 ```

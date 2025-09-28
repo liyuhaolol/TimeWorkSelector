@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import spa.lyh.cn.lib_utils.translucent.Edge2Edge;
 import spa.lyh.cn.lib_utils.translucent.TranslucentUtils;
 import spa.lyh.cn.time_work_selector.TimeWorkSelector;
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        TranslucentUtils.setTranslucentBoth(getWindow());
+        Edge2Edge.enable(this);
         //NavBarFontColorControler.setNavBarMode(this,true);*/
     }
 
