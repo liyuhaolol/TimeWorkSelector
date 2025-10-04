@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import spa.lyh.cn.lib_utils.translucent.Edge2Edge;
 import spa.lyh.cn.lib_utils.translucent.TranslucentUtils;
+import spa.lyh.cn.lib_utils.translucent.statusbar.StatusBarFontColorControler;
 import spa.lyh.cn.time_work_selector.TimeWorkSelector;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         });
         Edge2Edge.enable(this);
         //NavBarFontColorControler.setNavBarMode(this,true);*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatusBarFontColorControler.setStatusBarMode(getWindow(),false);
     }
 
     public void show(View v) {
